@@ -699,7 +699,45 @@
         document.querySelectorAll('.guide-section').forEach((section, index) => {
             section.style.animationDelay = `${index * 0.1}s`;
         });
+        // Atualiza os blocos de código para mostrar o código real usado nas demos
+        function updateCodeBlocks() {
+            // Flexbox
+            const flexDemo = document.getElementById('flexDemo');
+            const flexCodeBlock = flexDemo.parentElement.parentElement.querySelector('.code-block');
+            const flexDirection = flexDemo.style.flexDirection || 'row';
+            const flexWrap = flexDemo.style.flexWrap || 'wrap';
+            flexCodeBlock.textContent =
+                `.flex-container {\n  display: flex;\n  flex-wrap: ${flexWrap};\n  gap: 20px;\n  justify-content: space-between;\n  flex-direction: ${flexDirection};\n}\n.flex-item {\n  flex: 1;\n  min-width: 200px;\n}`;
 
+            // Grid
+            const gridDemo = document.getElementById('gridDemo');
+            const gridCodeBlock = gridDemo.parentElement.parentElement.querySelector('.code-block');
+            const gridTemplateColumns = gridDemo.style.gridTemplateColumns || 'repeat(auto-fit, minmax(250px, 1fr))';
+            gridCodeBlock.textContent =
+                `.grid-container {\n  display: grid;\n  grid-template-columns: ${gridTemplateColumns};\n  gap: 20px;\n}`;
+
+            // Viewport Simulator
+            const simulator = document.getElementById('viewportSimulator');
+            const viewportSection = simulator.parentElement.parentElement;
+            const viewportCodeBlock = viewportSection.querySelector('.code-block');
+            let width = simulator.style.width || '100%';
+            viewportCodeBlock.textContent =
+                `#viewportSimulator {\n  width: ${width};\n  border: 3px solid #4a5568;\n  border-radius: 10px;\n  background: white;\n}`;
+
+            // Imagem Responsiva
+            const imgDemo = viewportSection.nextElementSibling.querySelector('img');
+            const imgCodeBlock = viewportSection.nextElementSibling.querySelector('.code-block');
+            imgCodeBlock.textContent =
+                `img {\n  max-width: 100%;\n  height: auto;\n}\n<img src="${imgDemo.getAttribute('src')}" srcset="${imgDemo.getAttribute('srcset')}" alt="${imgDemo.getAttribute('alt')}">`;
+        }
+
+        // Atualiza os blocos de código ao interagir
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            btn.addEventListener('click', updateCodeBlocks);
+        });
+
+        // Atualiza ao carregar
+        window.addEventListener('load', updateCodeBlocks);
     </script>
 </body>
 
